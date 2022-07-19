@@ -28,23 +28,12 @@
     ); 
     var Reviewcollection = new Reviews();
     Reviewcollection.add(testreview);    
-    //console.log(JSON.stringify(Reviewcollection.toJSON()));
     
-//var Router = Backbone.Router.extend({    
-//  routes: {  
-//     'delete': 'delete' 
-//  },  
-//  delete: function(){   
-//              console.log("myroute_1 has been called."); 
-             // $(this).closest("tr").remove();
-             // });
-
- // }});  
-var appRouter=new Router;     
-Backbone.history.start(); 
       </script>  
-
+      
     <script>
+      dialog = Backbone.View.extend({
+        initialize: function(){
       $(document).ready(
           function() {  
             $("#tabs").on("click","input[type=checkbox]",function(){
@@ -52,7 +41,10 @@ Backbone.history.start();
             var cid = 0;
               $("#reviewbtn").click(function(){
               $("#review-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
-                  "add new review":function(){
+                  "add new review":{
+                    text: "add new review",         
+                    id: "my-review-id",
+                    click:function(){
                       var reviewname = $("#reviewname").val();
                       var newreview = new ReviewModel({c_id: cid, review: reviewname });
                       cid = cid + 1;
@@ -64,24 +56,20 @@ Backbone.history.start();
                     document.getElementById("tr").remove();  }                   
                       $("#reviewname").val("");
                       $(this).dialog("close");
-                  },
-                  "cancel":function(){
+                  }},
+                  "cancel":{
+                    text: "Cancel",         
+                    id: "cancel-id",
+                    click:function(){
                       $("#reviewname").val("");
-                      $(this).dialog("close");
+                      $(this).dialog("close");}
                   }
               }});
             })
-              
-var Router = Backbone.Router.extend({    
-  routes: {  
-     '': 'delete' 
-  },  
-  delete: function(){  
-     console.log("myroute_1 has been called.");  
-  }});  
-var appRouter=new Router;     
-Backbone.history.start(); 
-      });
+      }); 
+            }
+    });    
+    var backbone= new dialog() ;   
       </script>  
       <div class="center" style="margin-top: 100px; border: 3px solid grey;">
           
