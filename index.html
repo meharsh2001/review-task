@@ -22,27 +22,31 @@
         var Reviews = Backbone.Collection.extend({  
            model : ReviewModel  });  
 
-        var backbone= new ReviewModel().cid ;   
-        var Views = Backbone.View.extend({    
-           initialize : function () {} , 
-        });  
-        new Views();
+        var backbone= new ReviewModel(); 
+        
+		var testreview = new Reviews({c_id: "",review: ""}
+    ); 
+    var Reviewcollection = new Reviews();
+    Reviewcollection.add(testreview);    
+    //console.log(JSON.stringify(Reviewcollection.toJSON()));
       </script>  
 
     <script>
       $(document).ready(
-          function() {
+          function() {  
+            var cid = 0;
               $("#reviewbtn").click(function(){
               $("#review-dialog").dialog({width:400,resizable:false,modal:true,buttons:{
                   "add new review":function(){
                       var reviewname = $("#reviewname").val();
-                      var newreview = new ReviewModel({c_id:"", review: reviewname });
-                      var Reviewcollection = new Reviews([newreview]);
+                      var newreview = new ReviewModel({c_id: cid, review: reviewname });
+                      cid = cid + 1;
                        Reviewcollection.push(newreview);
-                       console.log(Reviewcollection.length);
-                       for(i=0;i<Reviewcollection.length;i++){ 
-                      $("<tr><td id ='a"+i+"'>"+JSON.stringify(Reviewcollection.pluck('c_id'))+"</td><td id ='b"+i+"'>"+JSON.stringify(Reviewcollection.pluck('review'))+"</td><td id ='c"+i+"'>delete</td></tr>").appendTo('#html')
-}                     
+                      for(i=1;i<Reviewcollection.length;i++){
+                      $("<tr id ='tr'><td id ='a"+i+"'>"+JSON.stringify(Reviewcollection.at(i).attributes.c_id)+"</td><td id ='b"+i+"'>"+Reviewcollection.at(i).attributes.review+"</td><td id ='c"+i+"'><a href='#'>delete</a></td></tr>").appendTo('#html')
+                       }  
+                    for(j=2;Reviewcollection.length>j ; j++){
+                    document.getElementById("tr").remove();  }                   
                       $("#reviewname").val("");
                       $(this).dialog("close");
                   },
@@ -53,8 +57,7 @@
               }});})
               
       });
-      </script>
-      
+      </script>  
       <div class="center" style="margin-top: 100px; border: 3px solid grey;">
           
       <button class="button" id="reviewbtn" style=" padding: 5px; margin-top: 50px; float: right;">Add a Review</button>
@@ -64,7 +67,7 @@
       <div id="review-dialog" style="display:none;" title="ADD A review">
           <label for="tabs">review name:</label><input id="reviewname" type="text">
       </div>
-      <table class="table table-hover" style="border-style: solid ;border-color: green;">
+      <table class="table table-hover" style="border-style: solid ;border-color: green; width: 655px;">
         <thead style="padding-right:50px ; background-color:lightgreen;">
           <tr>
             <th style="padding-right:50px ;">Srno</th>				
